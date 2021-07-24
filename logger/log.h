@@ -3,12 +3,13 @@
 
 #include <fstream>
 #include <iostream>
-#include <mutex>
-#include <string>
-#include <sstream>
 #include <map>
+#include <mutex>
+#include <sstream>
+#include <string>
 
-#undef DEBUG
+#undef DEBUG // as DEBUG is a keyword for some platforms. 
+//In general, it is better not to use such an identifier, but it is required by main.cpp
 
 enum ELogLevel
 {
@@ -17,6 +18,7 @@ enum ELogLevel
     WARNING,
     ERROR
 };
+
 class Logger;
 class LoggerWrapper
 {
@@ -24,6 +26,7 @@ public:
     static Logger* getLogger( const std::string& str );
 private:
     static std::map<std::string,Logger*> m_loggers;
+    static std::mutex m_wrapperMutex;
 };
 
 class StreamValue
@@ -47,7 +50,8 @@ class Logger
 {
 public:
     
-    Logger( std::ostream* stream = &std::cout ): m_out( stream ) {}
+
+    Logger( std::ostream* stream = &std::cout );
     Logger( std::string fileName );
     ~Logger();
     
@@ -83,6 +87,6 @@ inline Logger& getLogger( const std::string& fileName = std::string(),
     inst->setPrefix( prefix );
     return *inst;
 }
-
-#define auto auto&
+// I had to change main.cpp a bit( replaced auto with auto& ) 
+// because I have no idea how to make logger instance both non-copyable and passed by value.
 #endif //LOG_H

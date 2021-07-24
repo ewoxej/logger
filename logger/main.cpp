@@ -18,17 +18,17 @@ Example of log2.txt:
 
 
 void f1() {
-    auto consoleLogger = getLogger(); // Log to console
+    auto& consoleLogger = getLogger(); // Log to console
     // Console output: 23.02.2020 18:06:06; DEBUG; (2561): Running a thread
     consoleLogger(DEBUG) << "Running a thread";
 
-    auto fileLogger = getLogger("log.txt"); // Log to file with name log.txt
+    auto& fileLogger = getLogger("log.txt"); // Log to file with name log.txt
     // File output: 23.02.2020 18:06:06; INFO; (2561): Running a thread
     fileLogger << "Running a thread"; // Default log level INFO
 }
 
 void f2() {
-    auto logger = getLogger("log.txt", "f2"); // Log to file with name log.txt. Each message has f2 prefix
+    auto& logger = getLogger("log.txt", "f2"); // Log to file with name log.txt. Each message has f2 prefix
     // File output: 23.02.2020 18:06:06; DEBUG; f2(3444): Running a thread
     logger(DEBUG) << "Running a thread";
 
@@ -38,7 +38,7 @@ void f2() {
 }
 
 void f3() {
-    auto logger = getLogger("log2.txt", "f3");  // Log to file with name log2.txt. Each message has f3 prefix
+    auto& logger = getLogger("log2.txt", "f3");  // Log to file with name log2.txt. Each message has f3 prefix
     // File output: 23.02.2020 18:06:06; INFO; f3(3444): Running a thread
     logger << "Running a thread"; // Default log level INFO
 
@@ -48,7 +48,7 @@ void f3() {
 }
 
 int main() {
-    auto logger = getLogger(); // Log to console
+    auto& logger = getLogger(); // Log to console
     // Console output: 23.02.2020 18:06:06; INFO; (1020): Starting the app
     logger << "Starting the app"; // Default log level INFO
 
